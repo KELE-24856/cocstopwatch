@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>部落冲突建筑工人计时器</title>
+    <meta name="description" content="部落冲突建筑升级倒计时器">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="icons/icon-192x192.png">
+    <meta name="theme-color" content="#1e3d6b"/>
+</head>
+<body>
+    <header>
+        <h1>部落冲突建筑工人计时器</h1>
+        <div class="stats">
+            <span id="total-tasks">正在进行: 0 个建筑升级</span>
+            <div id="account-stats"></div>
+        </div>
+    </header>
+
+    <main>
+        <section id="tasks-container">
+            <ul id="tasks-list"></ul>
+        </section>
+    </main>
+
+    <div class="floating-buttons">
+        <button id="import-data-btn" class="floating-btn secondary" title="导入数据">📥</button>
+        <button id="add-task-btn" class="floating-btn" title="添加任务">+</button>
+    </div>
+
+    <div id="task-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>添加新任务</h2>
+            <form id="task-form">
+                <div class="form-group">
+                    <label for="account">账号:</label>
+                    <select id="account" required>
+                        <option value="账号1">账号1</option>
+                        <option value="账号2">账号2</option>
+                        <option value="账号3">账号3</option>
+                        <option value="账号4">账号4</option>
+                        <option value="账号5">账号5</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="building-category">建筑类型:</label>
+                    <select id="building-category" required>
+                        <option value="进攻">进攻类建筑</option>
+                        <option value="防御">防御类建筑</option>
+                        <option value="研究">研究类建筑</option>
+                    </select>
+                </div>
+                <div class="form-group time-group">
+                    <label>升级所需时间:</label>
+                    <div class="time-inputs">
+                        <select id="days" required>
+                            <option value="">天</option>
+                            <!-- 通过JavaScript生成选项 -->
+                        </select>
+                        <select id="hours" required>
+                            <option value="">小时</option>
+                            <!-- 通过JavaScript生成选项 -->
+                        </select>
+                        <select id="minutes" required>
+                            <option value="">分钟</option>
+                            <!-- 通过JavaScript生成选项 -->
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="primary-btn">开始升级</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="import-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>导入部落数据</h2>
+            <div class="form-group">
+                <textarea id="paste-area" placeholder="请在此粘贴部落的JSON数据..."></textarea>
+            </div>
+            <button id="parse-btn" class="primary-btn">解析并导入</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // 注册 Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
